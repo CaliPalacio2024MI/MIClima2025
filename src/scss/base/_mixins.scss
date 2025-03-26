@@ -1,0 +1,116 @@
+@use 'variables' as v;
+
+/** Media Queries **/
+@mixin telefono {
+    @media (min-width: v.$telefono) {
+        @content;
+    }
+}
+@mixin tablet {
+    @media (min-width: v.$tablet) {
+        @content;
+    }
+}
+@mixin desktop {
+    @media (min-width: v.$desktop) {
+        @content;
+    }
+}
+
+@mixin grid($columnas, $espaciado ) {
+    display: grid;
+    gap: $espaciado;
+    grid-template-columns: repeat($columnas, 1fr);
+}
+
+@mixin shadow {
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 13px 27px -5px, rgba(0, 0, 0, 0.3) 0px 8px 16px -8px;
+    
+}
+
+@mixin contenedor {
+    width: min(95%, 140rem);
+    margin: 0 auto;
+}
+
+@mixin contenedor-md {
+    width: min(95%, 80rem);
+    margin: 0 auto;
+}
+
+@mixin contenedor-sm {
+    width: min(95%, 60rem);
+    margin: 0 auto;
+}
+
+@mixin botonBEM($bgColor, $colorTexto) {
+    background-color: $bgColor;
+    padding: 1.5rem 4rem;
+    color: $colorTexto;
+    font-size: 1.8rem;
+    font-weight: 700;
+    border: none;
+    transition-property: background-color;
+    transition-duration: .3s;
+    text-align: center;
+    width: 100%;
+    display: inline-block;
+    border-radius: 0.5rem;
+
+    &:hover {
+        background-color: darken( $bgColor, 10% );
+        cursor: pointer;
+    }
+}
+
+@mixin bg-gradient($bg_color) {
+    background-image: linear-gradient(to left top, $bg_color, lighten($bg_color, 15%));
+}
+
+@mixin enlace {
+    all: unset;
+    color: v.$blanco;
+    text-decoration: none;
+    font-size: 1.6rem;
+    display: block;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+        color: v.$azulSecundario; 
+    }
+
+    @include tablet {
+        margin-right: 2rem;
+        font-size: 1.6rem;
+
+        &:last-of-type {
+            margin-right: 0;
+        }
+    }
+}
+
+@mixin boton($bgColor, $colorTexto, $fontSize, $display, $margin) {
+    background-color: $bgColor;
+    padding: 1rem;
+    color: $colorTexto;
+    font-size: $fontSize;
+    font-weight: v.$regular;
+    border: none;
+    transition-property: background-color;
+    transition-duration: .3s;
+    text-align: center;
+    display: $display; //Block toma todo el espacio en ancho
+    margin: $margin;
+    border-radius: 1.5rem;
+
+    @include telefono() {
+        // width: auto;
+    }
+    &:hover {
+        background-color: darken( $bgColor, 10% );
+        cursor: pointer;
+    }
+}
+
+

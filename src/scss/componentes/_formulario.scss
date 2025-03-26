@@ -1,0 +1,145 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.formulario {
+    display: flex;
+    flex-direction: column;
+    &__fieldset {
+        border: none;
+        margin-top: 1rem;
+        padding: 0;
+    }
+    &__legend {
+        color: v.$gris;
+        font-size: 2.2rem;
+    }
+
+    &__campo {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin: 1.5rem 0;
+    }
+
+    &__contenedor-icono {
+        display: flex;
+        border-radius: .5rem;
+        overflow: hidden;
+    }
+
+    &__icono {
+        background-color: v.$gris-oscuro;
+        width: 4rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        i {
+            color: v.$blanco;
+            font-size: 2rem;
+        }
+    }
+
+    &__label {
+        display: block;
+        font-size: 1.8rem;
+        color: rgba(v.$negro, .8);
+    }
+
+    &__input,
+    &__select {
+        padding: 1rem;
+        border: 1px solid darken(v.$gris-claro, 20);
+        border-radius: .5rem;
+        background-color: v.$blanco;
+
+        &--file {
+            border: none;
+        }
+        &--sociales {
+            @extend .formulario__input;
+            flex: 1;
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+        }
+    }
+
+    &__radio {
+        display: flex;
+        gap: 2rem;
+    }
+
+    &__texto {
+        margin-top: 3rem;
+    }
+    
+    &__imagen {
+        max-width: 20rem;
+    }
+
+    &__listado {
+        // @include m.tags;
+    }
+
+    &__submit {
+        @include m.botonBEM(v.$azulSecundario, v.$blanco);
+        width: auto;
+        align-self: flex-start;
+
+        &--registrar,
+        &--full {
+            width: 100%;
+        }
+    }
+
+    &__checkboxes {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;  // Separación entre las casillas
+        font-size: 1.4rem;  // Tamaño de fuente ajustado para mejorar la legibilidad
+    }
+
+    &__checkbox {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: v.$gris-oscuro;
+    }
+
+    &__checkbox input[type="checkbox"] {
+        width: 20px;
+        height: 20px;
+        border-radius: .5rem;  // Bordes redondeados
+        background-color: v.$blanco;  // Fondo blanco para los checkboxes
+        padding: 1rem;  // Agrega el padding para un diseño más espacioso
+        cursor: pointer;
+        transition: background-color 0.3s ease;  // Agrega una transición suave al cambio de color
+        border: 1px solid darken(v.$gris-claro, 20);
+    }
+
+    &__checkbox input[type="checkbox"]:checked {
+        background-color: v.$verde;  // Color de fondo cuando el checkbox está marcado
+        border-color: v.$verde;  // Borde del checkbox cuando está marcado
+    }
+
+    &__checkbox label {
+        font-size: 1.4rem;  // Tamaño de la letra ajustado
+        color: v.$gris-oscuro;  // Color del texto de la etiqueta
+        cursor: pointer;
+        padding-left: 1rem;  // Espacio extra después de la palabra "Propiedad:"
+    }
+
+    &__checkbox label:hover {
+        color: v.$azul;  // Color de la etiqueta al pasar el mouse
+    }
+
+    &__checkbox input[type="checkbox"]:focus {
+        outline: none;  // Elimina el outline por defecto
+        box-shadow: 0 0 5px v.$azul;  // Agrega un pequeño efecto de sombra cuando el checkbox tiene foco
+    }
+
+    // Elimina la propiedad que hacía negrita la etiqueta cuando el checkbox está marcado
+    &__checkbox input[type="checkbox"]:checked + label {
+        font-weight: normal;  // Se asegura de que no se ponga en negrita
+    }
+}

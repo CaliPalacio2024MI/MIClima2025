@@ -1,0 +1,38 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+
+.footer {
+    background-color: v.$gris-oscuro;
+    // margin: 4rem 0 0 0;
+    width: 100%;
+    // height: 7rem;
+    
+    &__logos{
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        
+        picture,
+        img {
+            max-width: 7rem; /* Ejemplo de tamaño máximo */
+            height: auto; /* Mantiene la proporción de aspecto */
+        }
+    }
+    
+    @include m.tablet{
+        &__logos{
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            
+            picture,
+            img {
+                max-width: 11rem; /* Ejemplo de tamaño máximo */
+                height: auto; /* Mantiene la proporción de aspecto */
+            }
+        }
+    }
+}
+
+

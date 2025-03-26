@@ -1,0 +1,133 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+
+.inicio-admin {
+    h1{
+        margin-bottom: 1rem;
+    }
+    h3 {
+        font-weight: v.$regular;
+        font-size: 2rem;
+        margin: 0 0 3rem 0;
+    }
+}
+.resumen {
+    // @include m.grid(1, 5rem);
+
+    // @include m.desktop {
+    //     display: grid;
+    //     gap: 5rem;
+    //     grid-template-columns: 2fr 1fr;
+    // }
+
+    &__iconos {
+        margin: 4rem 9rem 0 7rem;
+    
+        @include m.telefono {
+            @include m.grid(2, 1rem);
+            margin: 2rem 0 0 10rem;
+        }
+
+        @include m.tablet{
+            // display: flex;
+            // flex-wrap: wrap;
+            // justify-content: space-around;
+            // gap: 2rem; /* Espacio entre los iconos */
+            @include m.grid(4,1rem);
+            justify-content: space-around;
+        }
+    }
+
+    &__iconos-icono {
+        display: flex;
+        align-items: center;
+        gap: 1rem; /* Espacio entre la imagen y el texto */
+
+        img, picture {
+            width: 5rem;
+        }
+
+        .labels {
+            display: flex;
+            flex-direction: column; // Asegura que los textos se apilen verticalmente
+            text-align: left;
+            font-size: 1.2rem;
+            p {
+                color: v.$azulSecundario;
+                font-weight: v.$bold;
+                margin: 0.3rem 0;
+            }
+        }
+    }
+
+    
+    &__grid {
+        @include m.grid(1, 2rem);
+        @include m.tablet {
+            @include m.grid(3, 5rem);
+        }
+        margin: 4rem 5rem 0 5rem;
+    }
+
+    &__cuadro {
+        text-align: center;
+    }
+    &__bloque {
+        text-align: center;
+        // color: v.$blanco;
+
+        padding: 1.5rem;
+        border-radius: 1.5rem;
+        background-color: #40587F;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        // @include m.bg-gradient(v.$gris-oscuro);
+        img, picture {
+            width: 12rem;
+            height: 10rem;
+        }
+    }
+
+    &__texto {
+        color: v.$blanco;
+        font-weight: v.$black;
+        line-height: 1;
+        margin: 1.5rem 0;
+        font-size: 1.4rem;
+        text-transform: uppercase;
+
+        &--numero {
+            @extend .resumen__texto;
+            font-size: 1.4rem;
+        }
+        &--Capitalizar,
+        &--Optimizar {
+            @extend .resumen__texto;
+            font-size: 3.2rem;
+            color: darken(v.$verde, 5%);
+        }
+        &--Mejorar {
+            @extend .resumen__texto;
+            font-size: 3.2rem;
+            color: darken(v.$amarillo, 5%);
+        }
+        &--Corregir {
+            @extend .resumen__texto;
+            font-size: 3.2rem;
+            color: darken(v.$rojo, 5%);
+        }
+        &--periodo {
+            @extend .resumen__texto;
+            color: v.$negro;
+            font-size: 1.5rem;
+            font-weight: v.$bold;
+        }
+
+        span {
+            font-weight: v.$regular;
+        }
+    }
+}

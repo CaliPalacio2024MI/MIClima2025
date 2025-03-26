@@ -1,0 +1,71 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+/* Estilos base */
+.resultados {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    @include m.tablet {
+        flex-direction: row;
+        justify-content: space-between;
+    }
+}
+.boton_contenedor1{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.resultados__genero, .resultados__filtros {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px; // Espaciado entre elementos
+
+    @include m.tablet {
+        flex-wrap: nowrap;
+    }
+}
+
+.resultados__genero {
+    p{
+        padding: 1rem;
+        background-color: v.$azulSecundario;
+        border-radius: 2rem;
+        color: v.$blanco;
+    }
+    span {
+        font-weight: v.$bold;
+    }
+}
+
+.resultados__filtros {
+    select {
+        padding: 1rem;
+        border-radius: 1rem;
+        margin: 5px; // Ajustar según necesidad
+    }
+
+    a {
+        padding: 1rem;
+        border-radius: 1rem;
+        margin: 5px; // Ajustar según necesidad
+    }
+}
+
+.calificacion-verde {
+    color: v.$verde; /* Un tono de verde */
+    font-weight: v.$bold;
+}
+
+.calificacion-amarillo {
+    color: v.$amarillo; /* Un tono de amarillo */
+    font-weight: v.$bold;
+}
+
+.calificacion-rojo {
+    color: v.$rojo; /* Un tono de rojo */
+    font-weight: v.$bold;
+}

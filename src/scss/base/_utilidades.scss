@@ -1,0 +1,64 @@
+@use 'variables' as v;
+
+.seccion {
+    margin-top: calc(v.$separacion / 2);
+    margin-bottom: calc(v.$separacion / 2);
+}
+
+.contenedor {
+    width: min(95%, 140rem);
+    margin: 0 auto;
+}
+.contenedor-md {
+    width: min(95%, 80rem);
+    margin: 0 auto;
+}
+.contenedor-sm {
+    width: min(95%, 60rem);
+    margin: 0 auto;
+}
+.alinear-derecha {
+    display: flex;
+    justify-content: flex-end; //Colocar al final
+}
+// .alinear-izquierda { //Innecesario
+//     display: flex;
+//     justify-content: flex-start; 
+// }
+.alinear-centro {
+    text-align: center;
+}
+.w-100{
+    width: 100%;
+}
+
+.admin {
+    margin-top: 4rem;
+    width: 90%;
+    border-spacing: 0;
+    text-align: center;
+
+    thead {
+        background-color: v.$azul;
+
+        th {
+            color: v.$blanco;
+            padding: 2rem;
+        }
+        tr {
+            text-align: center;
+        }
+    }
+
+    .imagen-tabla {
+        width: 10rem;
+    }
+}
+
+// .imagen-small {
+//     width: 20rem;
+// }
+
+.bold {
+    font-weight: bold;
+}

@@ -1,0 +1,80 @@
+@use 'base/variables' as v;
+@use 'base/mixins' as m;
+
+.contenedor-enviado{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - var(--footer-height)); // Altura mínima ajustada según la altura del footer
+    padding: 1rem; // Añade un poco de espacio en todos los lados
+}
+.enviado {
+
+    @include m.grid(1, 5rem);
+    text-align: center;
+
+        &__imagen {
+            // Estilos para la imagen en .enviado
+            // width: 100%;
+            img {
+                width: auto;
+                height: 20rem;
+            }
+    }
+    
+    // Estilos en tamaño tablet
+    @include m.tablet {
+        @include m.grid(2, 3rem);
+        text-align: center;
+
+        &__imagen {
+            // Estilos para la imagen en .enviado
+            // width: 100%;
+            img {
+                width: auto;
+                height: 28rem;
+            }
+        }
+    }
+
+    
+
+    &__texto {
+        // Estilos para el texto en .enviado
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+
+        picture {
+            // Estilos para el icono en .enviado__texto
+            width: 50px; // Ajusta según sea necesario
+            height: 50px; // Ajusta según sea necesario
+            img {
+                width: 100%;
+                height: auto;
+            }
+        }
+
+        p {
+            // Estilos para los párrafos en .enviado__texto
+            &:first-child {
+                font-weight: bold;
+            }
+            &:last-child {
+                margin-top: 1.5rem; // Ajusta según sea necesario
+            }
+        }
+
+        .boton-volver {
+            @include m.boton(v.$marron, v.$blanco, 1.8rem, inline-block, 1rem);
+            padding: 1rem 2.5rem;
+            // display: inline-block;
+            // margin-top: 1rem; // Ajusta según sea necesario
+            // Agrega aquí más estilos para el botón si es necesario
+        }
+    }
+}
+
+

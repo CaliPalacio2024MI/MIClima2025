@@ -1,0 +1,105 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    
+    &__progreso-contenedor {
+        width: 100%;
+        background-color: darken(v.$gris-claro, 20);
+        border-radius: 5px;
+        overflow: hidden;
+        height: 2rem;
+    }
+
+    &__progreso {
+        height: 100%;
+        background-color: v.$azulSecundario;
+        border-radius: 5px;
+        transition: width 0.5s ease;
+    }
+
+    &__thead {
+        // background-color: v.$gris-oscuro;
+        color: v.$gris-oscuro;
+        border-bottom: 2px solid v.$gris;
+    }
+    &__th {
+        padding: 1rem;
+        text-align: center;
+    }
+
+    &__tr {
+        &:nth-of-type(even) {
+            background-color: v.$gris-even;
+        }
+        // &:hover {
+        //     background: v.$azulGris;
+        // }
+        text-align: center;
+    }
+
+    &__td {
+        padding: 1.5rem 1rem;
+        font-size: 1.2rem;        
+
+        &--acciones {
+            @extend .table__td;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 2rem;
+        }
+        &--acciones-propiedades { //Corregir centrado
+            @extend .table__td;
+            display: flex;
+            flex-direction: column;
+            padding: 2.5rem 1rem;
+            gap: 2rem 0;
+        }
+        &--acciones-th {
+            @extend .table__td;
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+
+            &-div { 
+                display: flex;
+                gap: 0 2rem;
+            }
+        } 
+    }
+    &__td-pregunta {
+        text-align: left;
+        padding: 1.5rem 1rem;
+        font-size: 1.2rem; 
+    }
+
+    &__imagen {
+        width: 15rem;
+    }
+
+    &__accion {
+        all: unset;
+        text-transform: uppercase;
+        font-size: 1.2rem;
+        font-weight: v.$bold; 
+
+        display: flex; //Agregar un pequeño gap
+        
+        &--editar {
+            color: v.$azulSecundario;
+        }
+        &--eliminar {
+           color: v.$rojo;
+        }
+        &--privilegios {
+            color: v.$azulOscuro;
+        }
+        &:hover {
+            cursor: pointer;
+        }
+    }
+
+}

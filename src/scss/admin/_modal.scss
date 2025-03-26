@@ -1,0 +1,82 @@
+@use 'base/mixins' as m;
+@use 'base/variables' as v;
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4); /* Fondo semi-transparente */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 50%; /* Ancho del modal */
+    text-align: center; /* Alinear texto al centro */
+}
+
+.close {
+    color: #000;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: #d00;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.modal-content button {
+    padding: 10px 20px;
+    border-radius: 10px;
+    border: none;
+    cursor: pointer;
+    background-color: v.$azulSecundario;
+    color: white;
+    display: block; /* Hace que los botones sean en bloque (uno debajo del otro) */
+    width: 80%; /* Ancho de los botones */
+    margin: 10px auto; /* Centra los botones y agrega margen vertical */
+}
+
+#confirmarEliminar {
+    background-color: v.$azulSecundario;
+}
+
+#cancelarEliminar {
+    background-color: #dc3545;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+/* Estilos para pantallas de tablet en adelante */
+@include m.tablet{
+    .modal-content button {
+        display: inline-block; /* Alinea los botones horizontalmente */
+        width: auto; /* Ancho automático */
+        margin-left: 20px; /* Margen solo a la izquierda */
+        margin-right: 20px; /* Margen solo a la derecha */
+    }
+
+    .modal-content button:first-child {
+        margin-right: 20px;
+    }
+
+    .modal-content button:last-child {
+        margin-left: 20px;
+    }
+}
+
+
+
