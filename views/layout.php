@@ -69,18 +69,6 @@
             <source srcset="<?php echo $_ENV['HOST'] . '/build/img/pierre.png'; ?>" type="image/png">
             <img src="<?php echo $_ENV['HOST'] . '/build/img/pierre.png'; ?>" alt="Logo Pierre">
         </picture>
-
-        <picture>
-            <source srcset="<?php echo $_ENV['HOST'] . '/build/img/wayam.webp'; ?>" type="image/webp">
-            <source srcset="<?php echo $_ENV['HOST'] . '/build/img/wayam.png'; ?>" type="image/png">
-            <img src="<?php echo $_ENV['HOST'] . '/build/img/wayam.png'; ?>" alt="Logo Wayam">
-        </picture>
-
-        <picture>
-            <source srcset="<?php echo $_ENV['HOST'] . '/build/img/xixim.webp'; ?>" type="image/webp">
-            <source srcset="<?php echo $_ENV['HOST'] . '/build/img/xixim.png'; ?>" type="image/png">
-            <img src="<?php echo $_ENV['HOST'] . '/build/img/xixim.png'; ?>" alt="Logo Xixim">
-        </picture>
     </div>
 </footer>
  

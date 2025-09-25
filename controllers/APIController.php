@@ -70,61 +70,91 @@ class APIController{
         $nombre_periodo = $_GET['periodo'] ?? null;
         $nombre_propiedad = $_GET['nombrePropiedad'] ?? null;
         $nombre_departamento = $_GET['nombreDepartamento'] ?? null;
-
-
-        // Verificar que al menos 'nombre_periodo' o 'nombre_propiedad' estén presentes
+    
+        // Verificar que ambos parámetros (periodo y propiedad) estén presentes
         if (!$nombre_periodo || !$nombre_propiedad) {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Los parámetros nombre_periodo y nombre_propiedad son obligatorios']);
             exit;
         }
     
-        // Obtener el ID del periodo a partir del nombre
-        $periodo = ActiveRecord::first('periodos', ['periodo' => $nombre_periodo]);
-        if (!$periodo) {
-            header('Content-Type: application/json');
-            echo json_encode(['error' => 'Periodo no encontrado']);
-            exit;
-        }
-        $periodo_id = $periodo->id;
-    
-        // Obtener el ID de la propiedad a partir del nombre
+        // Obtener la propiedad según el nombre proporcionado
         $propiedad = ActiveRecord::first('propiedades', ['nombrePropiedad' => $nombre_propiedad]);
+    
         if (!$propiedad) {
             header('Content-Type: application/json');
             echo json_encode(['error' => 'Propiedad no encontrada']);
             exit;
         }
+    
+        // Obtener el periodo según el nombre proporcionado y que esté relacionado con la propiedad
+        $periodo = ActiveRecord::first('periodos', [
+            'periodo' => $nombre_periodo,
+            'propiedades_id' => $propiedad->id // Relacionamos el periodo con la propiedad
+        ]);
+    
+        if (!$periodo) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'Periodo no encontrado para esta propiedad']);
+            exit;
+        }
+    
+        // Obtener los IDs de periodo y propiedad
+        $periodo_id = $periodo->id;
         $propiedad_id = $propiedad->id;
     
-        // Obtener el ID del departamento si se proporciona
+        // Verificar el departamento si se proporciona
         $departamento_id = null;
         $nombreDepartamentoReal = 'N/A'; // Valor por defecto para evitar "N/A" en la respuesta
     
         if ($nombre_departamento !== null) {
-            $departamento = ActiveRecord::first('departamentos', ['nombreDepartamento' => $nombre_departamento]);
+            // Primero verificar el ID de la propiedad
+            $propiedad = ActiveRecord::first('propiedades', ['nombrePropiedad' => $nombre_propiedad]);
     
-            // Depuración: verificar si se encontró el departamento
-            error_log("Departamento buscado: " . $nombre_departamento);
-            error_log("Resultado de búsqueda: " . json_encode($departamento));
+            if (!$propiedad) {
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Propiedad no encontrada']);
+                exit;
+            }
+    
+            // Luego verificar el periodo
+            $periodo = ActiveRecord::first('periodos', [
+                'periodo' => $nombre_periodo,
+                'propiedades_id' => $propiedad->id
+            ]);
+    
+            if (!$periodo) {
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'Periodo no encontrado para esta propiedad']);
+                exit;
+            }
+    
+            // Luego, verificar el ID del departamento
+            $departamento = ActiveRecord::first('departamentos', [
+                'nombreDepartamento' => $nombre_departamento,
+                'periodos_id' => $periodo_id,  // Aseguramos que esté dentro del periodo
+                'propiedades_id' => $propiedad_id // Aseguramos que esté dentro de la propiedad
+            ]);
     
             if (!$departamento) {
                 header('Content-Type: application/json');
                 echo json_encode(['error' => 'Departamento no encontrado']);
                 exit;
             }
+    
+            // Si el departamento es válido, procedemos a obtener el ID del departamento
             $departamento_id = $departamento->claveDepto;
             $nombreDepartamentoReal = $departamento->nombreDepartamento;
         }
     
         // Si no se proporciona departamento, buscar todos los departamentos de la propiedad y periodo
         if ($departamento_id === null) {
+            // Obtener todos los departamentos relacionados con el periodo y la propiedad
             $departamentos = Departamentos::whereArray([
                 'periodos_id' => $periodo_id,
                 'propiedades_id' => $propiedad_id
             ]);
     
-            // Verificar que se obtuvieron departamentos
             if (!$departamentos || !is_array($departamentos) || empty($departamentos)) {
                 header('Content-Type: application/json');
                 echo json_encode(['error' => 'No se encontraron departamentos para este periodo y propiedad']);
@@ -139,11 +169,6 @@ class APIController{
                     'periodos_id' => $periodo_id
                 ]);
     
-                // Depuración: Verificar la cantidad de respuestas encontradas
-                error_log("Consultando respuestas para depto_id: " . $departamento->claveDepto . " en periodo: " . $periodo_id);
-                error_log("Total respuestas encontradas: " . count($respuestas));
-    
-                // Si no hay respuestas, saltamos este departamento
                 if (!$respuestas || !is_array($respuestas) || empty($respuestas)) {
                     continue;
                 }
@@ -165,27 +190,35 @@ class APIController{
                 // Guardar resultado
                 $resultados[] = [
                     'departamento' => $departamento->nombreDepartamento ?? 'Error en departamento',
-                    'promedio' => $promedio !== null ? $promedio . '%' : 'N/A',
+                    'resultado' => $promedio !== null ? $promedio . '%' : 'N/A',
                     'promedio_esperado' => "85.00%" 
                 ];
             }
     
-            // Respuesta JSON
+            // Respuesta JSON con los resultados filtrados
             header('Content-Type: application/json');
             echo json_encode($resultados);
-        } 
-        // Si se proporciona un departamento, buscar solo ese
-        else {
+        } else {
+            // Si se proporciona un departamento, verificar si está dentro del periodo y propiedad
+            $departamento_periodo = ActiveRecord::first('departamentos', [
+                'claveDepto' => $departamento_id,
+                'nombreDepartamento' => $nombre_departamento, // Validación del nombre del departamento
+                'periodos_id' => $periodo_id,
+                'propiedades_id' => $propiedad_id
+            ]);
+    
+            if (!$departamento_periodo) {
+                header('Content-Type: application/json');
+                echo json_encode(['error' => 'El departamento no está asociado a este periodo y propiedad']);
+                exit;
+            }
+    
+            // Obtener respuestas del departamento en ese periodo
             $respuestas = ResultadosDeptos::whereArray([
                 'departamentos_id' => $departamento_id,
                 'periodos_id' => $periodo_id
             ]);
     
-            // Depuración: Verificar la cantidad de respuestas encontradas
-            error_log("Consultando respuestas para depto_id: " . $departamento_id . " en periodo: " . $periodo_id);
-            error_log("Total respuestas encontradas: " . count($respuestas));
-    
-            // Verificar que se obtuvieron respuestas
             if (!$respuestas || !is_array($respuestas) || empty($respuestas)) {
                 header('Content-Type: application/json');
                 echo json_encode(['error' => 'No se encontraron respuestas para el departamento']);
@@ -208,16 +241,13 @@ class APIController{
     
             // Respuesta JSON para el departamento específico
             header('Content-Type: application/json');
-            echo json_encode([
+            echo json_encode([ 
                 'departamento' => $nombreDepartamentoReal,
-                'promedio' => $promedio !== null ? $promedio . '%' : 'N/A',
+                'resultado' => $promedio !== null ? $promedio . '%' : 'N/A',
                 'promedio_esperado' => "85.00%" 
             ]);
         }
     }
-    
-    
-
 }
 
 

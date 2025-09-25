@@ -69,7 +69,7 @@ function versionWebp() {
 
 function watchArchivos() {
     browserSync.init({
-    proxy:"http://proyectoclima.test",
+    proxy:"http://proyectoclima2025.test",
     baseDir: "./public",
     open: false,
     notify: false

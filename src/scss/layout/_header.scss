@@ -2,10 +2,10 @@
 @use 'base/mixins' as m;
 
 .no-webp .inicio {
-    background-image: url(../img/fondoPropiedades.jpg);
+    background-image: url(../img/Trespropiedades.jpg);
 }
 .webp .inicio {
-    background-image: url(../img/fondoPropiedades.webp);
+    background-image: url(../img/Trespropiedades.webp);
 }
 
 .header{
@@ -20,7 +20,7 @@
         background-position: center center;
         background-size: cover;
 
-        min-height: 70rem;
+        min-height: 80rem;
 
         // @include m.tablet {
         //     min-height: 70rem;

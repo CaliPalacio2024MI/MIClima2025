@@ -246,18 +246,24 @@ class ActiveRecord {
     }
 
     // Busqueda Where con Múltiples opciones
-    public static function whereArray($array = []) {
-        $query = "SELECT * FROM " . static::$tabla . " WHERE ";
-        foreach($array as $key => $value) {
-            if ($key == array_key_last($array)) {
-                $query .= " $key = '$value'";
-            } else {
-                $query .= " $key = '$value' AND ";
-            }
+    public static function whereArray($array, $tabla = null) {
+        if (!is_array($array) || empty($array)) {
+            return []; // Evita errores si el array está vacío o no es válido
         }
-        $query .= " LIMIT 10000"; // Asegura que traiga suficientes registros
-        $resultado = self::consultarSQL($query);
-        return !empty($resultado) ? $resultado : [];
+    
+        $tabla = $tabla ?? static::$tabla; // Usa la tabla de la clase si no se proporciona una
+        $query = "SELECT * FROM `" . $tabla . "` WHERE ";
+    
+        // Construcción segura de la consulta
+        $condiciones = [];
+        foreach ($array as $key => $value) {
+            $condiciones[] = "`$key` = '" . self::$db->real_escape_string($value) . "'";
+        }
+    
+        $query .= implode(" AND ", $condiciones);
+        $query .= " LIMIT 10000";
+    
+        return self::consultarSQL($query) ?: [];
     }
     
 
